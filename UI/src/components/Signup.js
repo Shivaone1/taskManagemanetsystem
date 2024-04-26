@@ -28,6 +28,7 @@ export default function Signup() {
             try {
                 let response = await axios.post("http://127.0.0.1:8000/api/signUp/", data);
                 const responseData = response.data;
+                navigate(`/login`)
                 toast.success(responseData.message)
             } catch (error) {
                 console.error('Error while signing up:', error);

@@ -38,11 +38,11 @@ export default function Login() {
                 localStorage.setItem("mobile", responseData.data.mobileNumber);
 
                 if (responseData.data.role === 1) {
-                    navigate("/Dashboard");
-                    toast.success(response.data.message);
+                    navigate(`/Dashboard`);
+                    toast.success('Login Successfully!!!');
                 }
             } else {
-                toast.error(responseData.message);
+                toast.error('Some Thing Wrong...');
             }
 
         } catch (error) {

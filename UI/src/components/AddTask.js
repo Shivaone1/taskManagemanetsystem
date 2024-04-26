@@ -32,7 +32,7 @@ export default function AddTask() {
   const handleSubmit = async e => {
     e.preventDefault()
     try {
-      const response = await axios.post('http://127.0.0.1:8000/api/create', {
+      const response = await axios.post('http://127.0.0.1:8000/api/user/create', {
         title: title,
         description: description,
         status: status,

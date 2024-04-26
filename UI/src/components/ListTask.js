@@ -8,7 +8,7 @@ export default function ListTask () {
 
   async function getTasks () {
     try {
-      const response = await axios.post('http://127.0.0.1:8000/api/list')
+      const response = await axios.post('http://127.0.0.1:8000/api/user/list')
       const responseData = response.data.data
       setTasks(responseData)
     } catch (error) {
@@ -21,7 +21,7 @@ export default function ListTask () {
       if (
         window.confirm(`Are you sure you want to delete category ${title} ?`)
       ) {
-        await axios.post(`http://127.0.0.1:8000/api/delete/`, {
+        await axios.post(`http://127.0.0.1:8000/api/user/delete/`, {
           task_id: id
         })
         getTasks()
@@ -31,9 +31,9 @@ export default function ListTask () {
       toast.error("Can't Delete This Time", error)
     }
   }
-  function editTask (id) {
-    toast.success(`Task Update Successfully!!!`, id)
-  }
+  //   function editTask (id) {
+  //     toast.success(`Task Update Successfully!!!`, id)
+  //   }
   useEffect(() => {
     getTasks()
   }, [tasks.length])
@@ -63,12 +63,13 @@ export default function ListTask () {
                   <td>{item.deadline ? item.deadline : ''}</td>
                   <td>{item.description ? item.description : ''}</td>
                   <td>
-                    <a
-                      onClick={() => editTask(item.id)}
-                      className='btn btn-success'
-                    >
-                      <i className='fa fa-edit'></i>
-                    </a>
+                  <a
+  href={`/edit-task?task_id=${item.id}`}
+  className='btn btn-success'
+>
+  Edit
+</a>
+
                     <a
                       onClick={() => deleteTask(item.id, item.title)}
                       className='btn btn-danger'

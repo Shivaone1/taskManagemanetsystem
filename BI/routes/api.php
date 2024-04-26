@@ -18,12 +18,13 @@ use Illuminate\Support\Facades\Route;
 // Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //     return $request->user();
 // });
-Route::post('/list', [TaskController::class, 'index']);
-Route::post('/create', [TaskController::class, 'store']);
-Route::post('/update', [TaskController::class, 'update']);
-Route::post('/delete', [TaskController::class, 'destroy']);
 Route::post('login', [TaskController::class, 'loginUser']);
 Route::post('signUp', [TaskController::class, 'createUser']);
 Route::prefix('user')->group(function () {
     Route::POST('logout', [TaskController::class, 'userLogout']);
+    Route::post('/list', [TaskController::class, 'index']);
+    Route::post('/create', [TaskController::class, 'store']);
+    Route::post('/update', [TaskController::class, 'update']);
+    Route::post('/delete', [TaskController::class, 'destroy']);
+    Route::POST('/view', [TaskController::class, 'view']);
 })->middleware(['auth:api']);

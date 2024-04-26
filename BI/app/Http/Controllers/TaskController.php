@@ -88,8 +88,53 @@ class TaskController extends Controller
         ]);
         return response()->json(['status' => true, 'message' => 'Login User Created Successfully...'], 200);
     }
+    public function update(Request $request)
+    {
+        $validation = Validator::make($request->all(), [
+            'task_id' => 'required',
 
+        ]);
 
+        if ($validation->fails()) {
+            $error = $validation->errors()->first();
+            return response()->json(['status' => false, 'message' => $error], 400);
+        }
+
+        try {
+            $obj = Task::find($request->task_id);
+            $obj->title = $request->title ?? "";
+            $obj->description = $request->description ?? "";
+            $obj->status = $request->status ?? "";
+            $obj->deadline = $request->deadline ?? "";
+            $obj->save();
+            return response()->json(['status' => true, 'message' => 'Updated Successfully...'], 200);
+        } catch (\Throwable $e) {
+            return response()->json(['status' => false, 'message' => 'Updating Failed...'], 400);
+        }
+    }
+    public function view(Request $request)
+    {
+        $validation = validator::make($request->all(), [
+            "task_id" => 'required|exists:tasks,id'
+        ]);
+
+        if ($validation->fails()) {
+            $errors = $validation->errors();
+            return response()->json(['status' => false, 'message' => $errors], 403);
+        }
+
+        try {
+            $getTask = Task::where('id', $request->task_id)->get();
+
+            if ($getTask->isEmpty()) {
+                return response()->json(['status' => false, 'message' => 'Data Not Found'], 404);
+            }
+
+            return response()->json(['status' => true, 'message' => 'Data Fetched Successfully', 'data' => $getTask], 200);
+        } catch (\Exception $e) {
+            return response()->json(['status' => false, 'message' => 'Bad Request'], 400);
+        }
+    }
     public function destroy(Request $request)
     {
         try {
@@ -102,7 +147,7 @@ class TaskController extends Controller
             }
             $getTask = Task::find($request->task_id, 'id');
             $getTask->delete();
-            return response()->json(['status' => true, 'message' => 'Task Delete Successfully !!!'. $getTask->title]);
+            return response()->json(['status' => true, 'message' => 'Task Delete Successfully !!!' . $getTask->title]);
         } catch (\Throwable $e) {
             return response()->json(['status' => false, 'message' => 'Failed Something Went Wrong!!!' . $e->getmessage()], 400);
         }

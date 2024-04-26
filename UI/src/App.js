@@ -10,6 +10,7 @@ import Dashboard from './components/Dashboard';
 import Error from './Error';
 import ListTask from './components/ListTask';
 import AddTask from './components/AddTask';
+import EditTask from './components/EditTask';
 
 
 const App = () => {
@@ -25,6 +26,7 @@ const App = () => {
 
           <Route path="/Dashboard" element={localStorage.getItem("login")?<Dashboard/>:<Login />}/>
           <Route path="/add-task" element={localStorage.getItem("login")?<AddTask/>:<Login />}/>
+          <Route path="/edit-task" element={localStorage.getItem("login")?<EditTask/>:<Login />}/>
           <Route path="/list-task" element={localStorage.getItem("login")?<ListTask/>:<Login />}/>
           
           <Route path="/*" element={<Error />} />
