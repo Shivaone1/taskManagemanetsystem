@@ -19,4 +19,6 @@ use Illuminate\Support\Facades\Route;
 //     return $request->user();
 // });
 Route::post('/list', [TaskController::class, 'index']);
-Route::post('create', [TaskController::class, 'createUser']);
+Route::post('/create', [TaskController::class, 'store']);
+Route::post('/update', [TaskController::class, 'update']);
+Route::post('/delete', [TaskController::class, 'destroy']);
