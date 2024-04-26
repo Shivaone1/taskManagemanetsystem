@@ -2,9 +2,8 @@ import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-import TaskForm from './TaskForm'
 
-const TaskList = () => {
+export default function ListTask () {
   const [tasks, setTasks] = useState([])
 
   async function getTasks () {
@@ -33,13 +32,10 @@ const TaskList = () => {
     }
   }
   function editTask (id) {
-        toast.success(`Task Update Successfully!!!`,id)
+    toast.success(`Task Update Successfully!!!`, id)
   }
   useEffect(() => {
-    const intervalId = setInterval(() => {
-      getTasks()
-    }, 4000)
-    return () => clearInterval(intervalId)
+    getTasks()
   }, [tasks.length])
 
   return (
@@ -67,14 +63,24 @@ const TaskList = () => {
                   <td>{item.deadline ? item.deadline : ''}</td>
                   <td>{item.description ? item.description : ''}</td>
                   <td>
-                    <a onClick={() => editTask(item.id)} className='btn btn-success'><i className='fa fa-edit'></i></a>
-                    <a onClick={() => deleteTask(item.id, item.title)} className='btn btn-danger'><i className='fa fa-trash-alt'></i></a>
+                    <a
+                      onClick={() => editTask(item.id)}
+                      className='btn btn-success'
+                    >
+                      <i className='fa fa-edit'></i>
+                    </a>
+                    <a
+                      onClick={() => deleteTask(item.id, item.title)}
+                      className='btn btn-danger'
+                    >
+                      <i className='fa fa-trash-alt'></i>
+                    </a>
                   </td>
                 </tr>
               ))
             ) : (
               <tr>
-                 <td colSpan='6' className='text-center'>
+                <td colSpan='6' className='text-center'>
                   Task Not Found !!!
                 </td>
               </tr>
@@ -82,9 +88,6 @@ const TaskList = () => {
           </tbody>
         </table>
       </div>
-      
     </>
   )
 }
-
-export default TaskList

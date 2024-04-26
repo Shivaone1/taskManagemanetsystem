@@ -3,9 +3,8 @@ import axios from 'axios'
 import { toast, ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
-const TaskForm = () => {
-  const [id, setID] = useState('')
-  const [title, setTitle] = useState('')
+export default function AddTask() {
+    const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
   const [status, setStatus] = useState('')
   const [deadline, setDeadline] = useState('')
@@ -25,9 +24,6 @@ const TaskForm = () => {
       case 'deadline':
         setDeadline(value)
         break
-      case 'id':
-        setID(value)
-        break
       default:
         break
     }
@@ -36,8 +32,7 @@ const TaskForm = () => {
   const handleSubmit = async e => {
     e.preventDefault()
     try {
-      const response = await axios.post('http://127.0.0.1:8000/api/update', {
-        id: id,
+      const response = await axios.post('http://127.0.0.1:8000/api/create', {
         title: title,
         description: description,
         status: status,
@@ -56,7 +51,6 @@ const TaskForm = () => {
       toast.error('Failed to add task')
     }
   }
-
   return (
     <>
       <div className='form-group'>
@@ -110,7 +104,5 @@ const TaskForm = () => {
         </div>
       </div>
     </>
-  )
+  );
 }
-
-export default TaskForm

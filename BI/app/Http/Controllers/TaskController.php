@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Task;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Auth;
+
 
 class TaskController extends Controller
 {
@@ -31,20 +34,59 @@ class TaskController extends Controller
             $task->save();
             return response()->json(['status' => true, 'message' => 'Task Created Successfully!!!'], 200);
         } catch (\Throwable $e) {
-            return response()->json(['status' => false, 'message' => 'Failed Something Went Wrong!!!' . $e->getMessage()], 400); // Adjusted error response message
+            return response()->json(['status' => false, 'message' => 'Failed Something Went Wrong!!!' . $e->getmessage()], 400); // Adjusted error response message
         }
     }
 
 
-    public function show($id)
+    public function loginUser(Request $request)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email',
+            'password' => 'required|min:6',
+        ]);
+        if ($validator->fails()) {
+            $errors = $validator->errors()->first();
+            return response()->json(['status' => false, 'message' => $errors], 400);
+        }
+
+        try {
+            $login = $request->all();
+            Auth::attempt($login);
+            $user = Auth::user();
+            $getData = [
+                'status' => true,
+                'message' => 'Login Successfully!!!',
+                'data' => [
+                    'name' => $user->name,
+                    'email' => $user->email,
+                    'role' => $user->role,
+                ]
+            ];
+            return response($getData);
+        } catch (\Throwable $th) {
+            return response()->json(['status' => false, 'message' => 'Login Failed !!!' . $th], 400);
+        }
     }
 
 
-    public function update(Request $request, $id)
+    public function createUser(Request $request)
     {
-        //
+        $validation = validator::make($request->all(), [
+            "email" => 'required|email',
+            "password"  => 'required|min:8'
+        ]);
+        if ($validation->fails()) {
+            $errors = $validation->errors();
+            return response()->json(['status' => false, 'message' => $errors], 403);
+        }
+        User::create([
+            "name" => 'Admin',
+            "role" => '1',
+            "email"    => $request->email,
+            "password" => bcrypt($request->password),
+        ]);
+        return response()->json(['status' => true, 'message' => 'Login User Created Successfully...'], 200);
     }
 
 
@@ -62,7 +104,7 @@ class TaskController extends Controller
             $getTask->delete();
             return response()->json(['status' => true, 'message' => 'Task Delete Successfully !!!'. $getTask->title]);
         } catch (\Throwable $e) {
-            return response()->json(['status' => false, 'message' => 'Failed Something Went Wrong!!!' . $e->getMessage()], 400);
+            return response()->json(['status' => false, 'message' => 'Failed Something Went Wrong!!!' . $e->getmessage()], 400);
         }
     }
 }
