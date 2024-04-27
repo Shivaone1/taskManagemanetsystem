@@ -38,7 +38,7 @@ export default function Login() {
                 localStorage.setItem("mobile", responseData.data.mobileNumber);
 
                 if (responseData.data.role === 1) {
-                    navigate(`/Dashboard`);
+                    navigate(`/dashboard`);
                     toast.success('Login Successfully!!!');
                 }
             } else {
