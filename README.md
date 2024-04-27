@@ -1,3 +1,3 @@
 ## Shivendra singh
 ## Project - Online Task Management System
-### Technology - React Js,Laravel,Passport API
+### Technology - React Js,Laravel
