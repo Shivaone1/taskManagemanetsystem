@@ -24,7 +24,7 @@ const App = () => {
           <Route path='/login' element={<Login />} />
           <Route path='/signup' element={<Signup />} />
 
-          <Route path="/Dashboard" element={localStorage.getItem("login")?<Dashboard/>:<Login />}/>
+          <Route path="/dashboard" element={localStorage.getItem("login")?<Dashboard/>:<Login />}/>
           <Route path="/add-task" element={localStorage.getItem("login")?<AddTask/>:<Login />}/>
           <Route path="/edit-task" element={localStorage.getItem("login")?<EditTask/>:<Login />}/>
           <Route path="/list-task" element={localStorage.getItem("login")?<ListTask/>:<Login />}/>
